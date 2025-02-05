@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>SPIChanges</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}
+</style>
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">SPIChanges</h1>
+
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>The standardized precipitation index (SPI) (<span class="citation">Mckee and Kleist (1993)</span>) is a probability-based
+drought indicator that categorizes dry and wet events as a function of
+their probability of occurrence or expected frequencies. This widely
+used drought index was initially developed as a stationary method in
+which the parameters of the parametric distribution used to estimate the
+cumulative probability of its unique input variable (rainfall), do not
+vary over time (<span class="citation">Blain et al. (2022)</span>).
+However, there have been observed changes in drought frequency and
+intensity worldwide (<span class="citation">Strzepek et al.
+(2010)</span>, <span class="citation">Dai (2013)</span>, <span class="citation">Spinoni et al. (2019)</span>, <span class="citation">Stagge and Sung (2022)</span>, and <span class="citation">Blain et al. (2022)</span>), which violate the
+assumption of stationarity (<span class="citation">Coles (2001)</span>,
+<span class="citation">Zhang, Zwiers, and Li (2004)</span>, <span class="citation">Cheng et al. (2014)</span>).</p>
+<p>In the context of the current climate changes, studies such as (<span class="citation">Russo et al. (2013)</span>, <span class="citation">Li
+et al. (2015)</span>, and <span class="citation">Rashid and Beecham
+(2019)</span>) proposed the nonstationary standardized precipitation
+index (NSPI), which incorporates several indices (e.g. time) as external
+covariates. Therefore, the NSPI was designed to capture nonstationary
+characteristics of rainfall and, thereby, to capture drought signals
+under transient rainfall distribution patterns (<span class="citation">Blain et al. (2022)</span>). However, the use of the
+NSPI is not a straightforward task (<span class="citation">Blain et al.
+(2022)</span>). Because time-varying parametric distributions account
+for temporal changes in rainfall distributions, they remove the effect
+of rainfall trends on the NSPI estimates (<span class="citation">Shiau
+(2020)</span>). For instance, by applying the NSPI to rainfall series
+presenting significant increasing trends, (<span class="citation">Shiau
+(2020)</span>) noted that the NSPI indicated an increase in the
+frequency and severity of drought events. Similar results were observed
+by (<span class="citation">Park et al. (2018)</span>) that found that,
+in the presence of decreasing rainfall trends, the use of time-varying
+distribution leads to an increase in the cumulative probability of a
+particular rainfall event over time, also increasing the corresponding
+NSPI estimate. Although this contradictory behavior (<span class="citation">Shiau (2020)</span>) may be algebraically explained by
+the NSPI calculation algorithm (<span class="citation">Blain et al.
+(2022)</span>), it potentially prevents widespread acceptance of
+nonstationary distributions for calculating standardized drought indices
+such as the SPI. This statement particularly holds for the operational
+use of these indices.</p>
+<p>In spite of the above-mentioned limitation, the nonstationary
+approach adopted by the NSPI algorithm is capable of modelling how the
+probabilities of rainfall events have changed over a time series. In
+addition, the use of nonstationary distributions enables isolate the
+effect of trends on the central tendency and on the dispersion of the
+rainfall frequency distributions. In this context, the {SPIChanges}
+package demonstrates that the challenge of interpreting SPI estimates
+under changing climatic conditions can be overcome by using information
+generated by the NSPI calculation algorithm. This package uses
+nonstationary distributions to detect trends in rainfall patterns and
+quantify their effect on the occurrence of any SPI estimate. In other
+words, the {SPIChanges} package leverages the nonstationary approach of
+the NSPI algorithm to detect trends in rainfall series and enhance the
+understanding of how changes in rainfall patterns affect the expected
+frequency of drought occurrence. See Theoretical Background for further
+information on the {SPIChanges} package.</p>
+</div>
+<div id="getting-started" class="section level1">
+<h1>Getting Started</h1>
+<p>Load the library in your R session.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(SPIChanges)</span></code></pre></div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>As described in the introduction, the SPI requires only rainfall data
+as its input variable. The {SPIChanges} package includes daily rainfall
+data (<code>CampinasRain</code>) to provide use case for its functions.
+The daily rainfall amounts were measured in millimetres, and recorded in
+Campinas state of Sao Paulo, Brazil (1980-2023). This data series were
+obtained from the CPC Global Unified Gauge-Based Analysis of Daily
+Precipitation, provided by the NOAA/OAR/ESRL PSL, Boulder, CO <a href="https://psl.noaa.gov/" class="uri">https://psl.noaa.gov/</a>. The
+data is included in the package as a dataframe with 2 columns and 16071
+rows, where the first and second columns are the Date and rainfall
+amounts, respectively.</p>
+</div>
+<div id="function-tsaggreg" class="section level2">
+<h2>Function <code>TSaggreg()</code></h2>
+<p>Aggregates or accumulates daily rainfall totals at quasiWeek time
+scales.</p>
+<p>As a multi-scalar index, the SPI accumulates rainfall totals (often
+recorded at the daily scale) at any time scale selected by the users.
+The {SPIChanges} package employs a basic time scale (quasiWeek) that
+splits each month into four sub-periods. Therefore, a quasiWeek time
+scale (TS) equal to 4 corresponds to a moving window with a 1-month
+length. TS equal to 48 corresponds to a moving window with a 1-year
+length. TS equals to 1 corresponds 1-quasiWeek time scale.<br />
+At this point, it is worth emphasizing that the use of calendar weeks as
+a basic time scales may pose challenges since the SPI is a relative
+metric that require homogeneous periods (<span class="citation">Vicente-Serrano et al. (2022)</span>). The first day of
+each year can fall on different weekdays, causing inconsistency
+throughout the year. Leap years may also complicate this comparison in
+routine drought monitoring (<span class="citation">Vicente-Serrano et
+al. (2022)</span>). Additionally, the 4-quasiWeek time scale aligns with
+the widely used 1-month time scale.</p>
+<p>## Usage</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">TSaggreg</span>(daily.rain,</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  start.date,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">TS =</span> <span class="dv">4</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+<div id="arguments" class="section level2">
+<h2>Arguments</h2>
+<ul>
+<li>daily.rain: Vector, 1-column matrix or data frame with daily
+rainfall totals.</li>
+<li>start.date: Date at which the aggregation should start. Formats:
+YYYY-MM-DD or YYYY/MM/DD.</li>
+<li>TS: Time scale on the quart.month basis (integer values between 1
+and 96). Default is 4, which corresponds to the monthly time scale.</li>
+</ul>
+</div>
+<div id="value" class="section level2">
+<h2>Value</h2>
+<p>Rainfall amounts aggregated at the time scale selected by the
+user.</p>
+</div>
+<div id="example-1" class="section level2">
+<h2>Example 1</h2>
+<p>Aggregating daily rainfall values at 4-quasiWeek time scale, which
+corresponds to monthly data.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(SPIChanges)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>daily.rain <span class="ot">&lt;-</span> CampinasRain[, <span class="dv">2</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>RainTS4 <span class="ot">&lt;-</span> <span class="fu">TSaggreg</span>(<span class="at">daily.rain =</span> daily.rain, <span class="at">start.date =</span> <span class="st">&quot;1980-01-01&quot;</span>, <span class="at">TS =</span> <span class="dv">4</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; Done. Just ensure the last quasi-week is complete.</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt;   The last day of your series is 31 and TS is 4</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">head</span>(RainTS4)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt;      Year Month quasiWeek rain.at.TS4</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; [1,] 1980     1         4    223.1143</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; [2,] 1980     2         1    217.4197</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; [3,] 1980     2         2    207.0196</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; [4,] 1980     2         3    203.8757</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; [5,] 1980     2         4    183.2537</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; [6,] 1980     3         1    177.9945</span></span></code></pre></div>
+</div>
+<div id="function-spichanges" class="section level2">
+<h2>Function <code>SPIChanges()</code></h2>
+<p>Detect trends and quantify their effect on the probability of SPI
+values occurring.</p>
+<p>The <code>SPIChanges()</code> is the central function of the package
+is based on the following steps, which adapted from the study of (<span class="citation">Blain et al. (2022)</span>):</p>
+<ol style="list-style-type: decimal">
+<li><p>Given a rainfall series with data accumulated at a particular
+quasiWeek time scale, the function uses the stationary version of the
+two-parameter gamma distribution to calculate SPI estimates and the
+cumulative probability of each rainfall amount occurring (i.e., the
+probability of each SPI estimate occurring).</p></li>
+<li><p>Using the second-order Akaike Information Criterion (AICc), the
+package selects the best-fitting model among distinct nonstationary
+two-parameter gamma distributions (see details).</p></li>
+<li><p>The package uses the selected nonstationary model to calculate
+the cumulative probability of each rainfall amount occurring under
+changing climate conditions.</p></li>
+<li><p>The package compares the probabilities estimated in steps 1 and 3
+to indicate whether the frequency of drought or wet events, quantified
+by the SPI, has increased or decreased over time.</p></li>
+</ol>
+<p>The gamma distributions are fitted to rainfall data using Generalized
+Additive Models (GAMLSS) with time as a covariate. This fitting process
+is based on the maximum likelihood method (<span class="citation">McCullagh (2018)</span>) and considers the following
+increasingly complex functions (candidate models). Further information
+on GAMLSS can be found in (<span class="citation">Rigby and
+Stasinopoulos (2005)</span>).</p>
+<p>Model 1 (stationary): The mean (µ) and dispersion (δ) of the
+distribution are constant over time.</p>
+<p>Model 2 (homoscedastic): Only µ is allowed to vary over time
+linearly.</p>
+<p>Model 3: Only δ is allowed to vary over time linearly.</p>
+<p>Model 4: Both µ and δ are allowed to vary over time linearly.</p>
+<p>Model 5 (homoscedastic): Only µ is allowed to vary over time
+non-linearly with a quadratic polynomial function.</p>
+<p>Model 6: Only δ is allowed to vary over time non-linearly with a
+quadratic polynomial function.</p>
+<p>Model 7: µ is allowed to vary over time non-linearly with a quadratic
+polynomial function; δ is allowed to vary over time linearly.</p>
+<p>Model 8: µ is allowed to vary over time linearly; δ is allowed to
+vary over time non-linearly with a quadratic polynomial function.</p>
+<p>Model 9: Both µ and δ are allowed to vary over time non-linearly with
+a quadratic polynomial function.</p>
+<p>Model 10: Only µ is allowed to vary over time non-linearly with a
+cubic polynomial function.</p>
+<p>Model 11: Only δ is allowed to vary over time non-linearly with a
+cubic polynomial function.</p>
+<p>Model 12: µ is allowed to vary over time non-linearly with a cubic
+polynomial function; δ is allowed to vary over time linearly.</p>
+<p>Model 13: µ is allowed to vary over time linearly; δ is allowed to
+vary over time non-linearly with a cubic polynomial function.</p>
+<p>Model 14: µ is allowed to vary over time non-linearly with a cubic
+polynomial function; δ is allowed to vary over time non-linearly with a
+quadratic polynomial function.</p>
+<p>Model 15: µ is allowed to vary over time non-linearly with a
+quadratic polynomial function; δ is allowed to vary over time
+non-linearly with a cubic polynomial function.</p>
+<p>Model 16: µ is allowed to vary over time non-linearly with a cubic
+polynomial function; δ is allowed to vary over time non-linearly with a
+cubic polynomial function.</p>
+<p>The gamma distribution has two parameters: the shape and scale. Their
+relationships with the mean (mu) and dispersion (sigma) are given by
+equations 1 and 2.</p>
+<p><span class="math display">\[
+mu = shape*scale      \tag{1}
+\]</span> <span class="math display">\[
+sigma = \frac{\sqrt{shape*scale^2}}{shape*scale}      \tag{2}
+\]</span></p>
+</div>
+<div id="usage" class="section level2">
+<h2>Usage</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">SPIChanges</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  rain.at.TS,</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  only.linear</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+<div id="arguments-1" class="section level2">
+<h2>Arguments</h2>
+<ul>
+<li>rain.at.TS: Vector, 1-column matrix or data frame with rainfall
+totals accumulated at a time scale.</li>
+<li>only.linear: A character variable (Yes or No) defining if the
+function must consider only linear models (Yes) or linear and non-linear
+models (No). Default is Yes.</li>
+</ul>
+</div>
+<div id="value-1" class="section level2">
+<h2>Value</h2>
+<p>A list object with:</p>
+<p>data.week: The precipitation amounts, SPI, cumulative probability of
+the SPI values (stationary approach), cumulative probability of the
+precipitation values calculated from the nonstationary algorithm of the
+NSPI, and the changes in the frequency of the SPI values caused by the
+changes in precipitation patterns.</p>
+<p>model.selection: The generalized additive model that best fits the
+precipitation series.</p>
+<p>Changes.Freq.Drought: changes in the frequency of moderate, severe
+and extreme drought events, as defined by the SPI classification system
+(Table 1), caused by the changes in precipitation patterns.</p>
+<p>Statistics: Year to year changes in the expected frequency of
+moderate, severe and extreme drought events.</p>
+</div>
+<div id="example-2" class="section level2">
+<h2>Example 2</h2>
+<p>Using only linear nonstationary parametric models to assess the
+probability of rainfall amounts. The models are based on the
+two-parameter gamma distribution with parameters estimated by the
+maximum likelihood method. The packages <code>gamlss</code> and
+<code>gamlss.dist</code> are used for such estimations.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">library</span>(SPIChanges)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>daily.rain <span class="ot">&lt;-</span> CampinasRain[, <span class="dv">2</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>rainTS4 <span class="ot">&lt;-</span> <span class="fu">TSaggreg</span>(<span class="at">daily.rain =</span> daily.rain, <span class="at">start.date =</span> <span class="st">&quot;1980-01-01&quot;</span>, <span class="at">TS =</span> <span class="dv">4</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; Done. Just ensure the last quasi-week is complete.</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt;   The last day of your series is 31 and TS is 4</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>Changes_SPI <span class="ot">&lt;-</span> <span class="fu">SPIChanges</span>(<span class="at">rain.at.TS =</span> rainTS4, <span class="at">only.linear =</span> <span class="st">&quot;Yes&quot;</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; Warning in SPIChanges(rain.at.TS = rainTS4, only.linear = &quot;Yes&quot;): rainfall</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; series Month 9 Week 1 has more than 6.7% of zeros. In this situation the SPI</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; cannot assume values lower than -1.5</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="fu">head</span>(Changes_SPI<span class="sc">$</span>data.week)</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt;   Year Month quasiWeek rain.at.TS    SPI Exp.Acum.Prob Actual.Acum.Prob</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; 1 1980     1         4   223.1143 -0.203         0.420            0.420</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; 2 1980     2         1   217.4197 -0.035         0.486            0.486</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; 3 1980     2         2   207.0196  0.031         0.513            0.513</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; 4 1980     2         3   203.8757  0.122         0.549            0.549</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; 5 1980     2         4   183.2537  0.317         0.624            0.624</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; 6 1980     3         1   177.9945  0.413         0.660            0.660</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt;   ChangeDryFreq</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; 1             0</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt; 2             0</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt; 3     NoDrought</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; 4     NoDrought</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt; 5     NoDrought</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; 6     NoDrought</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="fu">head</span>(Changes_SPI<span class="sc">$</span>Statistics)</span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt;   Month quasiWeek ProbZero      mu sigma</span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt; 1     1         1        0 218.182 0.326</span></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="co">#&gt; 2     1         1        0 218.182 0.326</span></span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="co">#&gt; 3     1         1        0 218.182 0.326</span></span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="co">#&gt; 4     1         1        0 218.182 0.326</span></span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="co">#&gt; 5     1         1        0 218.182 0.326</span></span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="co">#&gt; 6     1         1        0 218.182 0.326</span></span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="fu">head</span>(Changes_SPI<span class="sc">$</span>model.selection)</span>
+<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a><span class="co">#&gt;      Month quasiWeek model</span></span>
+<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a><span class="co">#&gt; [1,]     1         1     1</span></span>
+<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a><span class="co">#&gt; [2,]     1         2     1</span></span>
+<span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a><span class="co">#&gt; [3,]     1         3     1</span></span>
+<span id="cb5-38"><a href="#cb5-38" tabindex="-1"></a><span class="co">#&gt; [4,]     1         4     1</span></span>
+<span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a><span class="co">#&gt; [5,]     2         1     1</span></span>
+<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a><span class="co">#&gt; [6,]     2         2     1</span></span>
+<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a><span class="fu">head</span>(Changes_SPI<span class="sc">$</span>Changes.Freq.Drought)</span>
+<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a><span class="co">#&gt;      Month quasiWeek StatProbZero NonStatProbZero StatNormalRain</span></span>
+<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a><span class="co">#&gt; [1,]     1         1            0               0         210.51</span></span>
+<span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a><span class="co">#&gt; [2,]     1         2            0               0         228.64</span></span>
+<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a><span class="co">#&gt; [3,]     1         3            0               0         231.14</span></span>
+<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a><span class="co">#&gt; [4,]     1         4            0               0         237.84</span></span>
+<span id="cb5-47"><a href="#cb5-47" tabindex="-1"></a><span class="co">#&gt; [5,]     2         1            0               0         220.15</span></span>
+<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a><span class="co">#&gt; [6,]     2         2            0               0         204.63</span></span>
+<span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a><span class="co">#&gt;      NonStatNormalRain ChangeMod ChangeSev ChangeExt</span></span>
+<span id="cb5-50"><a href="#cb5-50" tabindex="-1"></a><span class="co">#&gt; [1,]            210.51         0         0         0</span></span>
+<span id="cb5-51"><a href="#cb5-51" tabindex="-1"></a><span class="co">#&gt; [2,]            228.64         0         0         0</span></span>
+<span id="cb5-52"><a href="#cb5-52" tabindex="-1"></a><span class="co">#&gt; [3,]            231.14         0         0         0</span></span>
+<span id="cb5-53"><a href="#cb5-53" tabindex="-1"></a><span class="co">#&gt; [4,]            237.84         0         0         0</span></span>
+<span id="cb5-54"><a href="#cb5-54" tabindex="-1"></a><span class="co">#&gt; [5,]            220.15         0         0         0</span></span>
+<span id="cb5-55"><a href="#cb5-55" tabindex="-1"></a><span class="co">#&gt; [6,]            204.63         0         0         0</span></span></code></pre></div>
+</div>
+<div id="example-3" class="section level2">
+<h2>Example 3</h2>
+<p>Using linear and non-linear nonstationary parametric models to assess
+the probability of rainfall amounts. The models are based on the
+two-parameter gamma distribution with parameters estimated by the
+maximum likelihood method. The packages <code>gamlss</code> and
+<code>gamlss.dist</code> are used for such estimations.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">library</span>(SPIChanges)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>daily.rain <span class="ot">&lt;-</span> CampinasRain[, <span class="dv">2</span>]</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>rainTS4 <span class="ot">&lt;-</span> <span class="fu">TSaggreg</span>(<span class="at">daily.rain =</span> daily.rain, <span class="at">start.date =</span> <span class="st">&quot;1980-01-01&quot;</span>, <span class="at">TS =</span> <span class="dv">4</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; Done. Just ensure the last quasi-week is complete.</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt;   The last day of your series is 31 and TS is 4</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>Changes_SPI <span class="ot">&lt;-</span> <span class="fu">SPIChanges</span>(<span class="at">rain.at.TS =</span> rainTS4, <span class="at">only.linear =</span> <span class="st">&quot;No&quot;</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; Warning in SPIChanges(rain.at.TS = rainTS4, only.linear = &quot;No&quot;): rainfall</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; series Month 9 Week 1 has more than 6.7% of zeros. In this situation the SPI</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; cannot assume values lower than -1.5</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="fu">head</span>(Changes_SPI<span class="sc">$</span>data.week)</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt;   Year Month quasiWeek rain.at.TS    SPI Exp.Acum.Prob Actual.Acum.Prob</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; 1 1980     1         4   223.1143 -0.203         0.420            0.420</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; 2 1980     2         1   217.4197 -0.035         0.486            0.486</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt; 3 1980     2         2   207.0196  0.031         0.513            0.513</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt; 4 1980     2         3   203.8757  0.122         0.549            0.549</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt; 5 1980     2         4   183.2537  0.317         0.624            0.624</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt; 6 1980     3         1   177.9945  0.413         0.660            0.660</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt;   ChangeDryFreq</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt; 1             0</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">#&gt; 2             0</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co">#&gt; 3     NoDrought</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co">#&gt; 4     NoDrought</span></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co">#&gt; 5     NoDrought</span></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co">#&gt; 6     NoDrought</span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="fu">head</span>(Changes_SPI<span class="sc">$</span>Statistics)</span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="co">#&gt;   Month quasiWeek ProbZero      mu sigma</span></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co">#&gt; 1     1         1        0 218.182 0.326</span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="co">#&gt; 2     1         1        0 218.182 0.326</span></span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="co">#&gt; 3     1         1        0 218.182 0.326</span></span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="co">#&gt; 4     1         1        0 218.182 0.326</span></span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="co">#&gt; 5     1         1        0 218.182 0.326</span></span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a><span class="co">#&gt; 6     1         1        0 218.182 0.326</span></span>
+<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a><span class="fu">head</span>(Changes_SPI<span class="sc">$</span>model.selection)</span>
+<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a><span class="co">#&gt;      Month quasiWeek model</span></span>
+<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a><span class="co">#&gt; [1,]     1         1     1</span></span>
+<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a><span class="co">#&gt; [2,]     1         2     1</span></span>
+<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a><span class="co">#&gt; [3,]     1         3     1</span></span>
+<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a><span class="co">#&gt; [4,]     1         4     1</span></span>
+<span id="cb6-39"><a href="#cb6-39" tabindex="-1"></a><span class="co">#&gt; [5,]     2         1     1</span></span>
+<span id="cb6-40"><a href="#cb6-40" tabindex="-1"></a><span class="co">#&gt; [6,]     2         2     1</span></span>
+<span id="cb6-41"><a href="#cb6-41" tabindex="-1"></a><span class="fu">head</span>(Changes_SPI<span class="sc">$</span>Changes.Freq.Drought)</span>
+<span id="cb6-42"><a href="#cb6-42" tabindex="-1"></a><span class="co">#&gt;      Month quasiWeek StatProbZero NonStatProbZero StatNormalRain</span></span>
+<span id="cb6-43"><a href="#cb6-43" tabindex="-1"></a><span class="co">#&gt; [1,]     1         1            0               0         210.51</span></span>
+<span id="cb6-44"><a href="#cb6-44" tabindex="-1"></a><span class="co">#&gt; [2,]     1         2            0               0         228.64</span></span>
+<span id="cb6-45"><a href="#cb6-45" tabindex="-1"></a><span class="co">#&gt; [3,]     1         3            0               0         231.14</span></span>
+<span id="cb6-46"><a href="#cb6-46" tabindex="-1"></a><span class="co">#&gt; [4,]     1         4            0               0         237.84</span></span>
+<span id="cb6-47"><a href="#cb6-47" tabindex="-1"></a><span class="co">#&gt; [5,]     2         1            0               0         220.15</span></span>
+<span id="cb6-48"><a href="#cb6-48" tabindex="-1"></a><span class="co">#&gt; [6,]     2         2            0               0         204.63</span></span>
+<span id="cb6-49"><a href="#cb6-49" tabindex="-1"></a><span class="co">#&gt;      NonStatNormalRain ChangeMod ChangeSev ChangeExt</span></span>
+<span id="cb6-50"><a href="#cb6-50" tabindex="-1"></a><span class="co">#&gt; [1,]            210.51         0         0         0</span></span>
+<span id="cb6-51"><a href="#cb6-51" tabindex="-1"></a><span class="co">#&gt; [2,]            228.64         0         0         0</span></span>
+<span id="cb6-52"><a href="#cb6-52" tabindex="-1"></a><span class="co">#&gt; [3,]            231.14         0         0         0</span></span>
+<span id="cb6-53"><a href="#cb6-53" tabindex="-1"></a><span class="co">#&gt; [4,]            237.84         0         0         0</span></span>
+<span id="cb6-54"><a href="#cb6-54" tabindex="-1"></a><span class="co">#&gt; [5,]            220.15         0         0         0</span></span>
+<span id="cb6-55"><a href="#cb6-55" tabindex="-1"></a><span class="co">#&gt; [6,]            204.63         0         0         0</span></span></code></pre></div>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-Blain2022" class="csl-entry">
+Blain, Gabriel Constantino, Graciela da Rocha Sobierajski, Elizabeth
+Weight, Letícia Lopes Martins, and Ana Carolina Freitas Xavier. 2022.
+<span>“Improving the Interpretation of Standardized Precipitation Index
+Estimates to Capture Drought Characteristics in Changing Climate
+Conditions.”</span> <em>International Journal of Climatology</em> 42
+(11): 5586–5608. <a href="https://doi.org/10.1002/joc.7550">https://doi.org/10.1002/joc.7550</a>.
+</div>
+<div id="ref-Cheng2014" class="csl-entry">
+Cheng, Linying, Amir AghaKouchak, Eric Gilleland, and Richard W. Katz.
+2014. <span>“Non-Stationary Extreme Value Analysis in a Changing
+Climate.”</span> <em>Climatic Change</em> 127 (2): 353–69. <a href="https://doi.org/10.1007/s10584-014-1254-5">https://doi.org/10.1007/s10584-014-1254-5</a>.
+</div>
+<div id="ref-Coles2001" class="csl-entry">
+Coles, Stuart. 2001. <em>An Introduction to Statistical Modeling of
+Extreme Values</em>. London: Springer.
+</div>
+<div id="ref-Dai2013" class="csl-entry">
+Dai, Aiguo. 2013. <span>“Increasing Drought Under Global Warming in
+Observations and Models.”</span> <em>Nature Climate Change</em> 3 (1):
+52–58. <a href="https://doi.org/10.1038/nclimate1633">https://doi.org/10.1038/nclimate1633</a>.
+</div>
+<div id="ref-Li2015" class="csl-entry">
+Li, Jian-Zhong, Yong-Xiang Wang, Shao-Feng Li, and Rong Hu. 2015.
+<span>“A Nonstationary Standardized Precipitation Index Incorporating
+Climate Indices as Covariates.”</span> <em>Journal of Geophysical
+Research: Atmospheres</em> 120 (3): 12082–95. <a href="https://doi.org/10.1002/2015JD023920">https://doi.org/10.1002/2015JD023920</a>.
+</div>
+<div id="ref-McCullagh2018" class="csl-entry">
+McCullagh, P. 2018. <em>Generalized Linear Models</em>. Edited by J. A.
+Nelder. 2nd ed. Chapman and Hall/CRC Monographs on Statistics and
+Applied Probability v.37. Boca Raton: Routledge.
+</div>
+<div id="ref-Mckee1993" class="csl-entry">
+Mckee, Doesken, T. B., and J Kleist. 1993. <span>“The Relationship of
+Drought Frequency and Duration to Time Scales.”</span> In <em>8th
+Conference on Applied Climatology</em>, 179–84. Boston, MA: American
+Meteorological Society.
+</div>
+<div id="ref-Park2018" class="csl-entry">
+Park, Junehyeong, Jang Hyun Sung, Yoon-Jin Lim, and Hyun-Suk Kang. 2018.
+<span>“Introduction and Application of Non-Stationary Standardized
+Precipitation Index Considering Probability Distribution Function and
+Return Period.”</span> <em>Theoretical and Applied Climatology</em> 136
+(1–2): 529–42. <a href="https://doi.org/10.1007/s00704-018-2500-y">https://doi.org/10.1007/s00704-018-2500-y</a>.
+</div>
+<div id="ref-Rashid2019" class="csl-entry">
+Rashid, Mohammad M., and Simon Beecham. 2019. <span>“Development of a
+Nonstationary Standardized Precipitation Index and Its Application to a
+South Australian Climate.”</span> <em>Science of the Total
+Environment</em> 657: 882–92. <a href="https://doi.org/10.1016/j.scitotenv.2018.12.052">https://doi.org/10.1016/j.scitotenv.2018.12.052</a>.
+</div>
+<div id="ref-Rigby2005" class="csl-entry">
+Rigby, R. A., and D. M. Stasinopoulos. 2005. <span>“Generalized Additive
+Models for Location, Scale and Shape.”</span> <em>Journal of the Royal
+Statistical Society Series C: Applied Statistics</em> 54 (3): 507–54. <a href="https://doi.org/10.1111/j.1467-9876.2005.00510.x">https://doi.org/10.1111/j.1467-9876.2005.00510.x</a>.
+</div>
+<div id="ref-Russo2013" class="csl-entry">
+Russo, Simone, Alessandro Dosio, Andreas Sterl, Paulo Barbosa, and
+Jürgen Vogt. 2013. <span>“Projection of Occurrence of Extreme Dry-Wet
+Years and Seasons in Europe with Stationary and Nonstationary
+Standardized Precipitation Indices.”</span> <em>Journal of Geophysical
+Research: Atmospheres</em> 118: 7628–39. <a href="https://doi.org/10.1002/jgrd.50571">https://doi.org/10.1002/jgrd.50571</a>.
+</div>
+<div id="ref-Shiau2020" class="csl-entry">
+Shiau, Jenq-Tzong. 2020. <span>“Effects of Gamma-Distribution Variations
+on SPI-Based Stationary and Nonstationary Drought Analyses.”</span>
+<em>Water Resources Management</em> 34 (6): 2081–95. <a href="https://doi.org/10.1007/s11269-020-02548-x">https://doi.org/10.1007/s11269-020-02548-x</a>.
+</div>
+<div id="ref-Spinoni2019" class="csl-entry">
+Spinoni, Jonathan, Paulo Barbosa, Alfred De Jager, Niall McCormick,
+Gustavo Naumann, Jürgen V. Vogt, Diego Magni, Dario Masante, and Marco
+Mazzeschi. 2019. <span>“A New Global Database of Meteorological Drought
+Events from 1951 to 2016.”</span> <em>Journal of Hydrology: Regional
+Studies</em> 22: 100593. <a href="https://doi.org/10.1016/j.ejrh.2019.100593">https://doi.org/10.1016/j.ejrh.2019.100593</a>.
+</div>
+<div id="ref-Stagge2022" class="csl-entry">
+Stagge, James H., and Kyungmin Sung. 2022. <span>“A Nonstationary
+Standardized Precipitation Index (NSPI) Using Bayesian Splines.”</span>
+<em>Journal of Applied Meteorology and Climatology</em> 61 (7): 761–79.
+<a href="https://doi.org/10.1175/jamc-d-21-0244.1">https://doi.org/10.1175/jamc-d-21-0244.1</a>.
+</div>
+<div id="ref-Strzepek2010" class="csl-entry">
+Strzepek, Kenneth, Gary Yohe, James Neumann, and Brent Boehlert. 2010.
+<span>“Characterizing Changes in Drought Risk for the United States from
+Climate Change.”</span> <em>Environmental Research Letters</em> 5 (4):
+044012. <a href="https://doi.org/10.1088/1748-9326/5/4/044012">https://doi.org/10.1088/1748-9326/5/4/044012</a>.
+</div>
+<div id="ref-Vicente-Serrano2022" class="csl-entry">
+Vicente-Serrano, Sergio M., Fernando Domínguez-Castro, Fernando Reig,
+Santiago Beguería, M. Tomas-Burguera, Borja Latorre, D. Peña-Angulo, et
+al. 2022. <span>“A Near Real-Time Drought Monitoring System for Spain
+Using Automatic Weather Station Network.”</span> <em>Atmospheric
+Research</em> 271: 1–19. <a href="https://doi.org/10.1016/j.atmosres.2022.106095">https://doi.org/10.1016/j.atmosres.2022.106095</a>.
+</div>
+<div id="ref-Zhang2004" class="csl-entry">
+Zhang, Xuebin, Francis W. Zwiers, and Guoqing Li. 2004. <span>“Monte
+Carlo Experiments on the Detection of Trends in Extreme Values.”</span>
+<em>Journal of Climate</em> 17: 1945–52. <a href="https://doi.org/10.1175/1520-0442(2004)017&lt;1945:MCEOTD&gt;2.0.CO;2">https://doi.org/10.1175/1520-0442(2004)017&lt;1945:MCEOTD&gt;2.0.CO;2</a>.
+</div>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
