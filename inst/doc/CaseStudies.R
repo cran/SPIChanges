@@ -5,308 +5,279 @@ knitr::opts_chunk$set(
 )
 
 ## ----monte carlo 1, message=FALSE, warning=FALSE, eval=FALSE------------------
-#  library(gamlss)
-#  library(gamlss.dist)
-#  library(MuMIn)
-#  library(spsUtil)
-#  # Designing the selection function based on the AICc
-#  select.model <- function(rain.week) {
-#    best <- matrix(NA, 1, 2)
-#    colnames(best) <- c("NonLinear", "Linear")
-#    t.gam <- quiet(gamlss(
-#      rain.week ~ 1,
-#      family = GA,
-#      mu.link = "log",
-#      sigma.link = "log"
-#    ))
-#    t.gam.ns10 <- quiet(gamlss(
-#      rain.week ~ time,
-#      family = GA,
-#      mu.link = "log",
-#      sigma.link = "log"
-#    ))
-#    t.gam.ns01 <- quiet(gamlss(
-#      rain.week ~ 1,
-#      sigma.formula = ~time,
-#      family = GA,
-#      mu.link = "log",
-#      sigma.link = "log"
-#    ))
-#    t.gam.ns11 <- quiet(gamlss(
-#      rain.week ~ time,
-#      sigma.formula = ~time,
-#      family = GA,
-#      mu.link = "log",
-#      sigma.link = "log"
-#    ))
-#    t.gam.ns20 <- quiet(gamlss(
-#      rain.week ~ time + I(time^2),
-#      family = GA,
-#      mu.link = "log",
-#      sigma.link = "log"
-#    ))
-#    t.gam.ns02 <- quiet(gamlss(
-#      rain.week ~ 1,
-#      family = GA,
-#      mu.link = "log",
-#      sigma.formula = ~ time +
-#        I(time^2),
-#      sigma.link = "log"
-#    ))
-#    t.gam.ns21 <- quiet(gamlss(
-#      rain.week ~ time + I(time^2),
-#      sigma.formula = ~time,
-#      family = GA,
-#      mu.link = "log",
-#      sigma.link = "log"
-#    ))
-#    t.gam.ns12 <- quiet(gamlss(
-#      rain.week ~ time,
-#      sigma.formula = ~ time + I(time^2),
-#      family = GA,
-#      mu.link = "log",
-#      sigma.link = "log"
-#    ))
-#    t.gam.ns22 <- quiet(gamlss(
-#      rain.week ~ time + I(time^2),
-#      sigma.formula = ~ time + I(time^2),
-#      family = GA,
-#      mu.link = "log",
-#      sigma.link = "log"
-#    ))
-#    t.gam.ns30 <- quiet(gamlss(
-#      rain.week ~ time +
-#        I(time^2) +
-#        I(time^3),
-#      family = GA,
-#      mu.link = "log",
-#      sigma.link = "log"
-#    ))
-#    t.gam.ns03 <- quiet(gamlss(
-#      rain.week ~ 1,
-#      family = GA,
-#      mu.link = "log",
-#      sigma.formula = ~ time +
-#        I(time^2) +
-#        I(time^3),
-#      sigma.link = "log"
-#    ))
-#    t.gam.ns31 <- quiet(gamlss(
-#      rain.week ~ time +
-#        I(time^2) +
-#        I(time^3),
-#      sigma.formula = ~time,
-#      family = GA,
-#      mu.link = "log",
-#      sigma.link = "log"
-#    ))
-#    t.gam.ns13 <- quiet(gamlss(
-#      rain.week ~ time,
-#      sigma.formula = ~ time +
-#        I(time^2) +
-#        I(time^3),
-#      family = GA,
-#      mu.link = "log",
-#      sigma.link = "log"
-#    ))
-#    t.gam.ns32 <- quiet(gamlss(
-#      rain.week ~ time +
-#        I(time^2) +
-#        I(time^3),
-#      sigma.formula = ~ time +
-#        I(time^2),
-#      family = GA,
-#      mu.link = "log",
-#      sigma.link = "log"
-#    ))
-#    t.gam.ns23 <- quiet(gamlss(
-#      rain.week ~ time +
-#        I(time^2),
-#      sigma.formula = ~ time +
-#        I(time^2) +
-#        I(time^3),
-#      family = GA,
-#      mu.link = "log",
-#      sigma.link = "log"
-#    ))
-#    t.gam.ns33 <- quiet(gamlss(
-#      rain.week ~ time +
-#        I(time^2) +
-#        I(time^3),
-#      sigma.formula = ~ time +
-#        I(time^2) +
-#        I(time^3),
-#      family = GA,
-#      mu.link = "log",
-#      sigma.link = "log"
-#    ))
-#    # Selection among all 16 models
-#    best[1, 1] <- which.min(list(
-#      MuMIn::AICc(t.gam, k = k),
-#      MuMIn::AICc(t.gam.ns10, k = k),
-#      MuMIn::AICc(t.gam.ns01, k = k),
-#      MuMIn::AICc(t.gam.ns11, k = k),
-#      MuMIn::AICc(t.gam.ns20, k = k),
-#      MuMIn::AICc(t.gam.ns02, k = k),
-#      MuMIn::AICc(t.gam.ns21, k = k),
-#      MuMIn::AICc(t.gam.ns12, k = k),
-#      MuMIn::AICc(t.gam.ns22, k = k),
-#      MuMIn::AICc(t.gam.ns30, k = k),
-#      MuMIn::AICc(t.gam.ns03, k = k),
-#      MuMIn::AICc(t.gam.ns31, k = k),
-#      MuMIn::AICc(t.gam.ns13, k = k),
-#      MuMIn::AICc(t.gam.ns32, k = k),
-#      MuMIn::AICc(t.gam.ns23, k = k),
-#      MuMIn::AICc(t.gam.ns33, k = k)
-#    ))
-#    # Selection among the stationary and linear models (models 1 to 4)
-#    best[1, 2] <- which.min(list(
-#      MuMIn::AICc(t.gam, k = k),
-#      MuMIn::AICc(t.gam.ns10, k = k),
-#      MuMIn::AICc(t.gam.ns01, k = k),
-#      MuMIn::AICc(t.gam.ns11, k = k)
-#    ))
-#  
-#    return(best)
-#  }
-#  library(gamlss)
-#  library(gamlss.dist)
-#  library(MuMIn)
-#  library(spsUtil)
-#  # Monte Carlo Simulation with three Sample Sizes
-#  sample_sizes <- c(30, 60, 90) # Define the sample sizes
-#  ns <- 10000 # Number of simulations
-#  k.seq <- seq(from = 2, to = 7, by = 0.2)
-#  penalty <- length(k.seq)
-#  
-#  results_list <- list()
-#  selected_nonlinear_list <- list()
-#  selected_linear_list <- list()
-#  
-#  for (n in sample_sizes) {
-#    time <- 1L:n
-#    rain.week <- matrix(NA, nrow = n, ncol = ns)
-#  
-#    sigma0 <- 0.22
-#    mu0 <- 809
-#    slope.mu <- 0 # trend-free
-#    slope.sigma <- 0 # trend-free
-#    sigma <- sigma0 + slope.sigma * time
-#    mu <- mu0 + slope.mu * time
-#  
-#    # Simulating precipitation data
-#    rain.week <- replicate(ns, sapply(1:n, function(t) rGA(1, mu = mu[t], sigma = sigma[t])))
-#  
-#    result <- matrix(NA, nrow = ns, ncol = 2 * penalty)
-#    selected.nonlinear <- matrix(NA, 16, penalty)
-#    selected.linear <- matrix(NA, 4, penalty)
-#  
-#    # Calculating loop for each k
-#    for (j in seq_along(k.seq)) {
-#      k <- k.seq[j]
-#      result1 <- apply(rain.week, 2, select.model)
-#      result[, (2 * j - 1):(2 * j)] <- t(result1)
-#  
-#      for (model in 1:16) {
-#        selected.nonlinear[model, j] <- 100 * (sum(result[, 2 * j - 1] == model) / ns)
-#        if (model <= 4) {
-#          selected.linear[model, j] <- 100 * (sum(result[, 2 * j] == model) / ns)
-#        }
-#      }
-#    }
-#    rownames(selected.nonlinear) <- paste0("Model", 1:16)
-#    rownames(selected.linear) <- paste0("Model", 1:4)
-#    colnames(selected.nonlinear) <- as.character(k.seq)
-#    colnames(selected.linear) <- as.character(k.seq)
-#  
-#    results_list[[as.character(n)]] <- result
-#    selected_nonlinear_list[[as.character(n)]] <- selected.nonlinear
-#    selected_linear_list[[as.character(n)]] <- selected.linear
-#  }
-#  
-#  for (n in sample_sizes) {
-#    cat("\nSample Size:", n, "\n")
-#    cat("\nSelected Nonlinear Models:\n")
-#    print(selected_nonlinear_list[[as.character(n)]])
-#    cat("\nSelected Linear Models:\n")
-#    print(selected_linear_list[[as.character(n)]])
-#  }
+# library(gamlss)
+# library(gamlss.dist)
+# library(MuMIn)
+# library(spsUtil)
+# # Designing the selection function based on the AICc
+# select.model <- function(rain.week) {
+#   best <- matrix(NA, 1, 2)
+#   colnames(best) <- c("NonLinear", "Linear")
+#   t.gam <- quiet(gamlss(
+#     rain.week ~ 1,
+#     family = GA,
+#     mu.link = "log",
+#     sigma.link = "log"
+#   ))
+#   t.gam.ns10 <- quiet(gamlss(
+#     rain.week ~ time,
+#     family = GA,
+#     mu.link = "log",
+#     sigma.link = "log"
+#   ))
+#   t.gam.ns01 <- quiet(gamlss(
+#     rain.week ~ 1,
+#     sigma.formula = ~time,
+#     family = GA,
+#     mu.link = "log",
+#     sigma.link = "log"
+#   ))
+#   t.gam.ns11 <- quiet(gamlss(
+#     rain.week ~ time,
+#     sigma.formula = ~time,
+#     family = GA,
+#     mu.link = "log",
+#     sigma.link = "log"
+#   ))
+#   t.gam.ns20 <- quiet(gamlss(
+#     rain.week ~ time + I(time^2),
+#     family = GA,
+#     mu.link = "log",
+#     sigma.link = "log"
+#   ))
+#   t.gam.ns02 <- quiet(gamlss(
+#     rain.week ~ 1,
+#     family = GA,
+#     mu.link = "log",
+#     sigma.formula = ~ time +
+#       I(time^2),
+#     sigma.link = "log"
+#   ))
+#   t.gam.ns21 <- quiet(gamlss(
+#     rain.week ~ time + I(time^2),
+#     sigma.formula = ~time,
+#     family = GA,
+#     mu.link = "log",
+#     sigma.link = "log"
+#   ))
+#   t.gam.ns12 <- quiet(gamlss(
+#     rain.week ~ time,
+#     sigma.formula = ~ time + I(time^2),
+#     family = GA,
+#     mu.link = "log",
+#     sigma.link = "log"
+#   ))
+#   t.gam.ns22 <- quiet(gamlss(
+#     rain.week ~ time + I(time^2),
+#     sigma.formula = ~ time + I(time^2),
+#     family = GA,
+#     mu.link = "log",
+#     sigma.link = "log"
+#   ))
+#   t.gam.ns30 <- quiet(gamlss(
+#     rain.week ~ time +
+#       I(time^2) +
+#       I(time^3),
+#     family = GA,
+#     mu.link = "log",
+#     sigma.link = "log"
+#   ))
+#   t.gam.ns03 <- quiet(gamlss(
+#     rain.week ~ 1,
+#     family = GA,
+#     mu.link = "log",
+#     sigma.formula = ~ time +
+#       I(time^2) +
+#       I(time^3),
+#     sigma.link = "log"
+#   ))
+#   t.gam.ns31 <- quiet(gamlss(
+#     rain.week ~ time +
+#       I(time^2) +
+#       I(time^3),
+#     sigma.formula = ~time,
+#     family = GA,
+#     mu.link = "log",
+#     sigma.link = "log"
+#   ))
+#   t.gam.ns13 <- quiet(gamlss(
+#     rain.week ~ time,
+#     sigma.formula = ~ time +
+#       I(time^2) +
+#       I(time^3),
+#     family = GA,
+#     mu.link = "log",
+#     sigma.link = "log"
+#   ))
+#   t.gam.ns32 <- quiet(gamlss(
+#     rain.week ~ time +
+#       I(time^2) +
+#       I(time^3),
+#     sigma.formula = ~ time +
+#       I(time^2),
+#     family = GA,
+#     mu.link = "log",
+#     sigma.link = "log"
+#   ))
+#   t.gam.ns23 <- quiet(gamlss(
+#     rain.week ~ time +
+#       I(time^2),
+#     sigma.formula = ~ time +
+#       I(time^2) +
+#       I(time^3),
+#     family = GA,
+#     mu.link = "log",
+#     sigma.link = "log"
+#   ))
+#   t.gam.ns33 <- quiet(gamlss(
+#     rain.week ~ time +
+#       I(time^2) +
+#       I(time^3),
+#     sigma.formula = ~ time +
+#       I(time^2) +
+#       I(time^3),
+#     family = GA,
+#     mu.link = "log",
+#     sigma.link = "log"
+#   ))
+#   # Selection among all 16 models
+#   best[1, 1] <- which.min(list(
+#     MuMIn::AICc(t.gam, k = k),
+#     MuMIn::AICc(t.gam.ns10, k = k),
+#     MuMIn::AICc(t.gam.ns01, k = k),
+#     MuMIn::AICc(t.gam.ns11, k = k),
+#     MuMIn::AICc(t.gam.ns20, k = k),
+#     MuMIn::AICc(t.gam.ns02, k = k),
+#     MuMIn::AICc(t.gam.ns21, k = k),
+#     MuMIn::AICc(t.gam.ns12, k = k),
+#     MuMIn::AICc(t.gam.ns22, k = k),
+#     MuMIn::AICc(t.gam.ns30, k = k),
+#     MuMIn::AICc(t.gam.ns03, k = k),
+#     MuMIn::AICc(t.gam.ns31, k = k),
+#     MuMIn::AICc(t.gam.ns13, k = k),
+#     MuMIn::AICc(t.gam.ns32, k = k),
+#     MuMIn::AICc(t.gam.ns23, k = k),
+#     MuMIn::AICc(t.gam.ns33, k = k)
+#   ))
+#   # Selection among the stationary and linear models (models 1 to 4)
+#   best[1, 2] <- which.min(list(
+#     MuMIn::AICc(t.gam, k = k),
+#     MuMIn::AICc(t.gam.ns10, k = k),
+#     MuMIn::AICc(t.gam.ns01, k = k),
+#     MuMIn::AICc(t.gam.ns11, k = k)
+#   ))
+# 
+#   return(best)
+# }
+# library(gamlss)
+# library(gamlss.dist)
+# library(MuMIn)
+# library(spsUtil)
+# # Monte Carlo Simulation with three Sample Sizes
+# sample_sizes <- c(30, 60, 90) # Define the sample sizes
+# ns <- 10000 # Number of simulations
+# k.seq <- seq(from = 2, to = 7, by = 0.2)
+# penalty <- length(k.seq)
+# 
+# results_list <- list()
+# selected_nonlinear_list <- list()
+# selected_linear_list <- list()
+# 
+# for (n in sample_sizes) {
+#   time <- 1L:n
+#   rain.week <- matrix(NA, nrow = n, ncol = ns)
+# 
+#   sigma0 <- 0.22
+#   mu0 <- 809
+#   slope.mu <- 0 # trend-free
+#   slope.sigma <- 0 # trend-free
+#   sigma <- sigma0 + slope.sigma * time
+#   mu <- mu0 + slope.mu * time
+# 
+#   # Simulating precipitation data
+#   rain.week <- replicate(ns, sapply(1:n, function(t) rGA(1, mu = mu[t], sigma = sigma[t])))
+# 
+#   result <- matrix(NA, nrow = ns, ncol = 2 * penalty)
+#   selected.nonlinear <- matrix(NA, 16, penalty)
+#   selected.linear <- matrix(NA, 4, penalty)
+# 
+#   # Calculating loop for each k
+#   for (j in seq_along(k.seq)) {
+#     k <- k.seq[j]
+#     result1 <- apply(rain.week, 2, select.model)
+#     result[, (2 * j - 1):(2 * j)] <- t(result1)
+# 
+#     for (model in 1:16) {
+#       selected.nonlinear[model, j] <- 100 * (sum(result[, 2 * j - 1] == model) / ns)
+#       if (model <= 4) {
+#         selected.linear[model, j] <- 100 * (sum(result[, 2 * j] == model) / ns)
+#       }
+#     }
+#   }
+#   rownames(selected.nonlinear) <- paste0("Model", 1:16)
+#   rownames(selected.linear) <- paste0("Model", 1:4)
+#   colnames(selected.nonlinear) <- as.character(k.seq)
+#   colnames(selected.linear) <- as.character(k.seq)
+# 
+#   results_list[[as.character(n)]] <- result
+#   selected_nonlinear_list[[as.character(n)]] <- selected.nonlinear
+#   selected_linear_list[[as.character(n)]] <- selected.linear
+# }
+# 
+# for (n in sample_sizes) {
+#   cat("\nSample Size:", n, "\n")
+#   cat("\nSelected Nonlinear Models:\n")
+#   print(selected_nonlinear_list[[as.character(n)]])
+#   cat("\nSelected Linear Models:\n")
+#   print(selected_linear_list[[as.character(n)]])
+# }
 
 ## ----monte carlo 2, message=FALSE, warning=FALSE, eval=FALSE------------------
-#  ## Monte Carlo Simulation
-#  n <- 90
-#  ns <- 10000
-#  time <- 1L:n
-#  
-#  rain.week <- matrix(NA, nrow = n, ncol = ns)
-#  sigma0 <- 0.22
-#  mu0 <- 809
-#  slope.mu <- (-0.004 * mu0) # super-imposed trend
-#  slope.sigma <- 0 # trend-free
-#  sigma <- sigma0 + slope.sigma * time
-#  mu <- mu0 + slope.mu * time
-#  k.seq <- seq(from = 2, to = 7, by = 0.2)
-#  penalty <- length(k.seq)
-#  
-#  result <- matrix(NA, nrow = ns, ncol = 2 * penalty)
-#  selected.nonlinear <- matrix(NA, 16, penalty)
-#  selected.linear <- matrix(NA, 4, penalty)
-#  # simulating again
-#  rain.week <- replicate(ns, sapply(1:n, function(t) rGA(1, mu = mu[t], sigma = sigma[t])))
-#  
-#  for (j in seq_along(k.seq)) {
-#    k <- k.seq[j]
-#    result1 <- apply(rain.week, 2, select.model)
-#    result[, (2 * j - 1):(2 * j)] <- t(result1)
-#  
-#    for (model in 1:16) {
-#      selected.nonlinear[model, j] <- 100 * (sum(result[, 2 * j - 1] == model) / ns)
-#      if (model <= 4) {
-#        selected.linear[model, j] <- 100 * (sum(result[, 2 * j] == model) / ns)
-#      }
-#    }
-#  }
-#  
-#  rownames(selected.nonlinear) <- paste0("Model", 1:16)
-#  rownames(selected.linear) <- paste0("Model", 1:4)
-#  colnames(selected.nonlinear) <- as.character(k.seq)
-#  colnames(selected.linear) <- as.character(k.seq)
-#  
-#  print(selected.nonlinear)
-#  print(selected.linear)
-
-## ----get-oxford-rain----------------------------------------------------------
-# The {curl} library is used to handle possible download issues with timeouts
-library(curl)
-
-h <- new_handle()
-handle_setopt(h, timeout = 360L)
-
-rain_file <- file.path(tempdir(), "oxford_rain.csv")
-
-curl::curl_download(
-  url = "https://figshare.com/ndownloader/files/21950895",
-  destfile = rain_file,
-  mode = "wb",
-  quiet = FALSE,
-  handle = h
-)
-Oxford.1815 <- read.csv(rain_file)
-Oxford <- Oxford.1815[which(Oxford.1815$YYY >= 1827), ] # Rainfall records, including traces (NA), started in 1827
-summary(Oxford)
-
-## ----replace-gaps-------------------------------------------------------------
-# create a new vector of rain to work with
-OxfordRain <- Oxford$Rainfall.mm.1.dpl.no.traces
-
-# set to 0
-OxfordRain[is.na(OxfordRain)] <- 0
-
-# ensure no NAs
-summary(OxfordRain)
+# ## Monte Carlo Simulation
+# n <- 90
+# ns <- 10000
+# time <- 1L:n
+# 
+# rain.week <- matrix(NA, nrow = n, ncol = ns)
+# sigma0 <- 0.22
+# mu0 <- 809
+# slope.mu <- (-0.004 * mu0) # super-imposed trend
+# slope.sigma <- 0 # trend-free
+# sigma <- sigma0 + slope.sigma * time
+# mu <- mu0 + slope.mu * time
+# k.seq <- seq(from = 2, to = 7, by = 0.2)
+# penalty <- length(k.seq)
+# 
+# result <- matrix(NA, nrow = ns, ncol = 2 * penalty)
+# selected.nonlinear <- matrix(NA, 16, penalty)
+# selected.linear <- matrix(NA, 4, penalty)
+# # simulating again
+# rain.week <- replicate(ns, sapply(1:n, function(t) rGA(1, mu = mu[t], sigma = sigma[t])))
+# 
+# for (j in seq_along(k.seq)) {
+#   k <- k.seq[j]
+#   result1 <- apply(rain.week, 2, select.model)
+#   result[, (2 * j - 1):(2 * j)] <- t(result1)
+# 
+#   for (model in 1:16) {
+#     selected.nonlinear[model, j] <- 100 * (sum(result[, 2 * j - 1] == model) / ns)
+#     if (model <= 4) {
+#       selected.linear[model, j] <- 100 * (sum(result[, 2 * j] == model) / ns)
+#     }
+#   }
+# }
+# 
+# rownames(selected.nonlinear) <- paste0("Model", 1:16)
+# rownames(selected.linear) <- paste0("Model", 1:4)
+# colnames(selected.nonlinear) <- as.character(k.seq)
+# colnames(selected.linear) <- as.character(k.seq)
+# 
+# print(selected.nonlinear)
+# print(selected.linear)
 
 ## ----Case Study 1-------------------------------------------------------------
 library(SPIChanges)
+data(OxfordRain)
 rainTS4 <- TSaggreg(daily.rain = OxfordRain, start.date = "1827-01-01", TS = 4)
 
 ### Fit All Models: Stationary, Linear and Nonlinear
@@ -622,131 +593,131 @@ Table2 <- Oxford.Changes.linear$data.week[which(Oxford.Changes.linear$data.week[
 Table2
 
 ## ----get-CPC-rain, eval=FALSE-------------------------------------------------
-#  # this chunk may take a long time to get daily precipitation data for entire Brazil (1980-2024)
-#  # Load necessary libraries
-#  library(ncdf4)
-#  library(curl)
-#  library(SPIChanges)
-#  
-#  n <- nrow(lonlat)
-#  # Configure curl with a longer timeout
-#  h <- new_handle()
-#  handle_setopt(h, timeout = 10800L)
-#  
-#  download_and_process <- function(year, lonlat) {
-#    # Define file paths and URLs
-#    rain_file <- file.path(tempdir(), paste0("cpcdata", year, ".nc"))
-#    download_url <- paste0("https://psl.noaa.gov/thredds/fileServer/Datasets/cpc_global_precip/precip.", year, ".nc")
-#    # Download the files
-#    curl::curl_download(
-#      url = download_url,
-#      destfile = rain_file,
-#      mode = "wb",
-#      quiet = FALSE,
-#      handle = h
-#    )
-#  
-#    # Open and process the netCDF file
-#    cep.prec <- nc_open(rain_file)
-#    lons <- ncvar_get(cep.prec, "lon")
-#    lats <- ncvar_get(cep.prec, "lat")
-#    prate <- ncvar_get(cep.prec, "precip") # mm/day
-#    NN <- dim(prate)[3]
-#    # Flip latitude and precipitation order
-#    prate <- prate[, rev(seq_len(dim(prate)[2])), 1:NN]
-#    lats <- rev(lats)
-#    # Initialize matrix for the year
-#    pdata <- matrix(NA, NN, n)
-#    for (i in seq_len(n)) {
-#      longitude <- lonlat[i, 1] + 360 # range 0, 360
-#      latitude <- lonlat[i, 2] # range -90, 90
-#      pdata[, i] <- prate[
-#        which.min((lons - longitude)^2),
-#        which.min((lats - latitude)^2),
-#      ]
-#    }
-#  
-#    nc_close(cep.prec)
-#    return(pdata)
-#  }
-#  
-#  # Process data for multiple years
-#  years <- 1980:2024
-#  pdata_list <- lapply(years, download_and_process, lonlat = lonlat)
-#  
-#  # Combine all years' data
-#  pdata1 <- do.call(rbind, pdata_list)
+# # this chunk may take a long time to get daily precipitation data for entire Brazil (1980-2024)
+# # Load necessary libraries
+# library(ncdf4)
+# library(curl)
+# library(SPIChanges)
+# 
+# n <- nrow(lonlat)
+# # Configure curl with a longer timeout
+# h <- new_handle()
+# handle_setopt(h, timeout = 10800L)
+# 
+# download_and_process <- function(year, lonlat) {
+#   # Define file paths and URLs
+#   rain_file <- file.path(tempdir(), paste0("cpcdata", year, ".nc"))
+#   download_url <- paste0("https://psl.noaa.gov/thredds/fileServer/Datasets/cpc_global_precip/precip.", year, ".nc")
+#   # Download the files
+#   curl::curl_download(
+#     url = download_url,
+#     destfile = rain_file,
+#     mode = "wb",
+#     quiet = FALSE,
+#     handle = h
+#   )
+# 
+#   # Open and process the netCDF file
+#   cep.prec <- nc_open(rain_file)
+#   lons <- ncvar_get(cep.prec, "lon")
+#   lats <- ncvar_get(cep.prec, "lat")
+#   prate <- ncvar_get(cep.prec, "precip") # mm/day
+#   NN <- dim(prate)[3]
+#   # Flip latitude and precipitation order
+#   prate <- prate[, rev(seq_len(dim(prate)[2])), 1:NN]
+#   lats <- rev(lats)
+#   # Initialize matrix for the year
+#   pdata <- matrix(NA, NN, n)
+#   for (i in seq_len(n)) {
+#     longitude <- lonlat[i, 1] + 360 # range 0, 360
+#     latitude <- lonlat[i, 2] # range -90, 90
+#     pdata[, i] <- prate[
+#       which.min((lons - longitude)^2),
+#       which.min((lats - latitude)^2),
+#     ]
+#   }
+# 
+#   nc_close(cep.prec)
+#   return(pdata)
+# }
+# 
+# # Process data for multiple years
+# years <- 1980:2024
+# pdata_list <- lapply(years, download_and_process, lonlat = lonlat)
+# 
+# # Combine all years' data
+# pdata1 <- do.call(rbind, pdata_list)
 
 ## ----aggregate-CPC-rain, eval=FALSE-------------------------------------------
-#  library(SPIChanges)
-#  # This chunk takes a long time to aggregate precipitation data for entire Brazil (1980-2024)
-#  pdata1[is.na(pdata1)] <- 0 # replacing NA by zero.
-#  TS12 <- TSaggreg(daily.rain = pdata1[, 1], start.date = "1980-01-01", TS = 12)
-#  N <- nrow(TS12)
-#  rain.at.TS <- matrix(NA, n, 5)
-#  rainTS12.bank <- matrix(NA, N, (n + 3))
-#  rainTS12.bank[, 1:4] <- as.matrix(TS12)
-#  for (i in 2:n) {
-#    TS12 <- TSaggreg(daily.rain = pdata1[, i], start.date = "1980-01-01", TS = 12)
-#    rainTS12.bank[, (i + 3)] <- TS12[, 4]
-#  }
+# library(SPIChanges)
+# # This chunk takes a long time to aggregate precipitation data for entire Brazil (1980-2024)
+# pdata1[is.na(pdata1)] <- 0 # replacing NA by zero.
+# TS12 <- TSaggreg(daily.rain = pdata1[, 1], start.date = "1980-01-01", TS = 12)
+# N <- nrow(TS12)
+# rain.at.TS <- matrix(NA, n, 5)
+# rainTS12.bank <- matrix(NA, N, (n + 3))
+# rainTS12.bank[, 1:4] <- as.matrix(TS12)
+# for (i in 2:n) {
+#   TS12 <- TSaggreg(daily.rain = pdata1[, i], start.date = "1980-01-01", TS = 12)
+#   rainTS12.bank[, (i + 3)] <- TS12[, 4]
+# }
 
 ## ----SPIChanges for entire Brazil, eval=FALSE---------------------------------
-#  # trying to speed up the things
-#  library(foreach)
-#  library(doParallel)
-#  library(SPIChanges)
-#  numCores <- detectCores() - 1 # Use one less core than the total available
-#  cl <- makeCluster(numCores)
-#  registerDoParallel(cl)
-#  rain <- matrix(NA, N, 4)
-#  rain[, 1:3] <- as.matrix(rainTS12.bank[, 1:3])
-#  final <- ncol(rainTS12.bank)
-#  n <- nrow(lonlat)
-#  Map <- matrix(NA, n, 18)
-#  model <- matrix(NA, n, 3)
-#  Map[, 1:2] <- as.matrix(lonlat)
-#  model[, 1:2] <- as.matrix(lonlat)
-#  changes <- matrix(NA, 1, 16)
-#  # Perform parallel processing
-#  results <- foreach(i = 4:final, .combine = rbind, .packages = "SPIChanges") %dopar% {
-#    rain[, 4] <- rainTS12.bank[, i]
-#    Local.Changes <- SPIChanges(rain.at.TS = rain, only.linear = "no")
-#    changes[1, 1:3] <- Local.Changes$Changes.Freq.Drought[which(Local.Changes$Changes.Freq.Drought[, 1] == 2 &
-#      Local.Changes$Changes.Freq.Drought[, 2] == 4), 7:9]
-#    changes[1, 4] <- Local.Changes$model.selection[which(Local.Changes$model.selection[, 1] == 2 &
-#      Local.Changes$model.selection[, 2] == 4), 3]
-#    changes[1, 5:7] <- Local.Changes$Changes.Freq.Drought[which(Local.Changes$Changes.Freq.Drought[, 1] == 5 &
-#      Local.Changes$Changes.Freq.Drought[, 2] == 4), 7:9]
-#    changes[1, 8] <- Local.Changes$model.selection[which(Local.Changes$model.selection[, 1] == 5 &
-#      Local.Changes$model.selection[, 2] == 4), 3]
-#    changes[1, 9:11] <- Local.Changes$Changes.Freq.Drought[which(Local.Changes$Changes.Freq.Drought[, 1] == 8 &
-#      Local.Changes$Changes.Freq.Drought[, 2] == 4), 7:9]
-#    changes[1, 12] <- Local.Changes$model.selection[which(Local.Changes$model.selection[, 1] == 8 &
-#      Local.Changes$model.selection[, 2] == 4), 3]
-#    changes[1, 13:15] <- Local.Changes$Changes.Freq.Drought[which(Local.Changes$Changes.Freq.Drought[, 1] == 11 &
-#      Local.Changes$Changes.Freq.Drought[, 2] == 4), 7:9]
-#    changes[1, 16] <- Local.Changes$model.selection[which(Local.Changes$model.selection[, 1] == 11 &
-#      Local.Changes$model.selection[, 2] == 4), 3]
-#    return(changes)
-#  }
-#  # Combine results into the Map matrix
-#  a <- 1
-#  for (i in 1:nrow(results)) {
-#    Map[a, 3:18] <- results[i, ]
-#    a <- a + 1
-#  }
-#  
-#  # Assign column names and save the results
-#  colnames(Map) <- c(
-#    "lon", "lat", "SummerModerate", "SummerSevere", "SummerExtreme", "SummerModel",
-#    "AutomnModerate", "AutomnSevere", "AutomnExtreme", "AutomnModel",
-#    "WinterModerate", "WinterSevere", "WinterExtreme", "WinterModel",
-#    "SpringModerate", "SpringSevere", "SpringExtreme", "SpringModel"
-#  )
-#  # Stop the cluster
-#  stopCluster(cl)
-#  head(Map)
+# # trying to speed up the things
+# library(foreach)
+# library(doParallel)
+# library(SPIChanges)
+# numCores <- detectCores() - 1 # Use one less core than the total available
+# cl <- makeCluster(numCores)
+# registerDoParallel(cl)
+# rain <- matrix(NA, N, 4)
+# rain[, 1:3] <- as.matrix(rainTS12.bank[, 1:3])
+# final <- ncol(rainTS12.bank)
+# n <- nrow(lonlat)
+# Map <- matrix(NA, n, 18)
+# model <- matrix(NA, n, 3)
+# Map[, 1:2] <- as.matrix(lonlat)
+# model[, 1:2] <- as.matrix(lonlat)
+# changes <- matrix(NA, 1, 16)
+# # Perform parallel processing
+# results <- foreach(i = 4:final, .combine = rbind, .packages = "SPIChanges") %dopar% {
+#   rain[, 4] <- rainTS12.bank[, i]
+#   Local.Changes <- SPIChanges(rain.at.TS = rain, only.linear = "no")
+#   changes[1, 1:3] <- Local.Changes$Changes.Freq.Drought[which(Local.Changes$Changes.Freq.Drought[, 1] == 2 &
+#     Local.Changes$Changes.Freq.Drought[, 2] == 4), 7:9]
+#   changes[1, 4] <- Local.Changes$model.selection[which(Local.Changes$model.selection[, 1] == 2 &
+#     Local.Changes$model.selection[, 2] == 4), 3]
+#   changes[1, 5:7] <- Local.Changes$Changes.Freq.Drought[which(Local.Changes$Changes.Freq.Drought[, 1] == 5 &
+#     Local.Changes$Changes.Freq.Drought[, 2] == 4), 7:9]
+#   changes[1, 8] <- Local.Changes$model.selection[which(Local.Changes$model.selection[, 1] == 5 &
+#     Local.Changes$model.selection[, 2] == 4), 3]
+#   changes[1, 9:11] <- Local.Changes$Changes.Freq.Drought[which(Local.Changes$Changes.Freq.Drought[, 1] == 8 &
+#     Local.Changes$Changes.Freq.Drought[, 2] == 4), 7:9]
+#   changes[1, 12] <- Local.Changes$model.selection[which(Local.Changes$model.selection[, 1] == 8 &
+#     Local.Changes$model.selection[, 2] == 4), 3]
+#   changes[1, 13:15] <- Local.Changes$Changes.Freq.Drought[which(Local.Changes$Changes.Freq.Drought[, 1] == 11 &
+#     Local.Changes$Changes.Freq.Drought[, 2] == 4), 7:9]
+#   changes[1, 16] <- Local.Changes$model.selection[which(Local.Changes$model.selection[, 1] == 11 &
+#     Local.Changes$model.selection[, 2] == 4), 3]
+#   return(changes)
+# }
+# # Combine results into the Map matrix
+# a <- 1
+# for (i in 1:nrow(results)) {
+#   Map[a, 3:18] <- results[i, ]
+#   a <- a + 1
+# }
+# 
+# # Assign column names and save the results
+# colnames(Map) <- c(
+#   "lon", "lat", "SummerModerate", "SummerSevere", "SummerExtreme", "SummerModel",
+#   "AutomnModerate", "AutomnSevere", "AutomnExtreme", "AutomnModel",
+#   "WinterModerate", "WinterSevere", "WinterExtreme", "WinterModel",
+#   "SpringModerate", "SpringSevere", "SpringExtreme", "SpringModel"
+# )
+# # Stop the cluster
+# stopCluster(cl)
+# head(Map)
 
 ## ----map, fig.width=8, fig.height=5-------------------------------------------
 library(ggplot2)

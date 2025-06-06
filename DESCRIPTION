@@ -1,7 +1,7 @@
 Package: SPIChanges
 Title: Improves the Interpretation of the Standardized Precipitation
         Index Under Changing Climate Conditions
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: c(
     person("Gabriel Constantino", "Blain", , "gabriel.blain@sp.gov.br", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-8832-7734")),
@@ -21,7 +21,7 @@ Description: Improves the interpretation of the Standardized Precipitation
 License: MIT + file LICENSE
 URL: https://github.com/gabrielblain/SPIChanges
 BugReports: https://github.com/gabrielblain/SPIChanges/issues
-Depends: R (>= 2.10)
+Depends: R (>= 3.5)
 Imports: gamlss, gamlss.dist, lubridate, MuMIn, rlang, spsUtil, stats,
         brglm2, zoo
 Suggests: archive, curl, doParallel, dplyr, foreach, ggplot2, grid,
@@ -36,12 +36,14 @@ Language: en-US
 LazyData: true
 RoxygenNote: 7.3.2
 NeedsCompilation: no
-Packaged: 2025-02-04 18:56:44 UTC; Gabriel
-Author: Gabriel Constantino Blain [aut, cre]
-    (<https://orcid.org/0000-0001-8832-7734>),
-  Graciela R. Sobierajski [aut] (<https://orcid.org/0000-0002-7211-9268>),
-  Leticia L. Martins [aut] (<https://orcid.org/0000-0002-0299-3005>),
-  Adam H. Sparks [aut] (<https://orcid.org/0000-0002-0061-8359>)
+Packaged: 2025-06-06 11:20:34 UTC; Gabriel
+Author: Gabriel Constantino Blain [aut, cre] (ORCID:
+    <https://orcid.org/0000-0001-8832-7734>),
+  Graciela R. Sobierajski [aut] (ORCID:
+    <https://orcid.org/0000-0002-7211-9268>),
+  Leticia L. Martins [aut] (ORCID:
+    <https://orcid.org/0000-0002-0299-3005>),
+  Adam H. Sparks [aut] (ORCID: <https://orcid.org/0000-0002-0061-8359>)
 Maintainer: Gabriel Constantino Blain <gabriel.blain@sp.gov.br>
 Repository: CRAN
-Date/Publication: 2025-02-05 18:10:08 UTC
+Date/Publication: 2025-06-06 11:40:02 UTC

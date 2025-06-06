@@ -21,6 +21,17 @@
 #' @importFrom stats na.omit
 #' @autoglobal
 #' @export
+#'
+#' @details
+#' This package adopts a quasi-weekly time step, dividing each month into four fixed periods:
+#' days 1–7, 8–14, 15–21, and 22 through the end of the month. This approach ensures a
+#' consistent total of 48 quasi-weekly intervals per year, regardless of the selected
+#' aggregation time scale (`TS`).
+#' For instance, when `TS = 4` (representing a one-month backward-looking window), the
+#' function computes cumulative precipitation totals over four consecutive quasi-weekly
+#' periods. This aggregation is repeated across all 48 periods of each year, generating
+#' a time series of aggregated precipitation values suitable for subsequent SPI estimation.
+
 
 TSaggreg <- function(daily.rain, start.date, TS = 4L) {
 

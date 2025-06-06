@@ -8,10 +8,10 @@ knitr::opts_chunk$set(
 library(SPIChanges)
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  TSaggreg(daily.rain,
-#    start.date,
-#    TS = 4
-#  )
+# TSaggreg(daily.rain,
+#   start.date,
+#   TS = 4
+# )
 
 ## ----example 1----------------------------------------------------------------
 library(SPIChanges)
@@ -20,10 +20,10 @@ RainTS4 <- TSaggreg(daily.rain = daily.rain, start.date = "1980-01-01", TS = 4)
 head(RainTS4)
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  SPIChanges(
-#    rain.at.TS,
-#    only.linear
-#  )
+# SPIChanges(
+#   rain.at.TS,
+#   only.linear
+# )
 
 ## ----example 2----------------------------------------------------------------
 library(SPIChanges)
