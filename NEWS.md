@@ -1,3 +1,9 @@
+# SPIChanges v0.2.1
+
+## Patch Changes
+
+-  improved `TSAggreg()` so that it can be computed before the end of the month.
+
 # SPIChanges 0.2.0
 
 ## Minor Changes

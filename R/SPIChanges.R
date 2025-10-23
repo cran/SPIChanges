@@ -173,7 +173,7 @@ SPIChanges <- function(rain.at.TS, only.linear = "Yes"){
     Model.Drought.week <- data.frame(matrix(NA,n.time.nonzero,5))
     t.gam <- quiet(gamlss(
       rain.week.nozeros ~ 1,
-      family = GA,
+      family = "GA",
       mu.link = "log",
       sigma.link = "log"
     ))
@@ -348,7 +348,7 @@ calc.probzero <- function(rain.week,time) {
 
 calc.probzero.st <- function(rain.week) {
   zero_rain <- as.integer(rain.week == 0)
-  modelo <- quiet(gamlss(zero_rain~1, family = BI))
+  modelo <- quiet(gamlss(zero_rain~1, family = "BI"))
   prob_zero_rain <- fitted(modelo, "mu")
   return(prob_zero_rain)
 }
@@ -367,7 +367,7 @@ Fit.linears <- function(rain.week.nozeros, time.nonzero) {
     t.gam <- quiet(
       gamlss(
         rain.week.nozeros ~ 1,
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )
@@ -375,7 +375,7 @@ Fit.linears <- function(rain.week.nozeros, time.nonzero) {
     t.gam.ns10 <- quiet(
       gamlss(
         rain.week.nozeros ~ time.nonzero,
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )
@@ -384,7 +384,7 @@ Fit.linears <- function(rain.week.nozeros, time.nonzero) {
       gamlss(
         rain.week.nozeros ~ 1,
         sigma.formula =  ~ time.nonzero,
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )
@@ -393,7 +393,7 @@ Fit.linears <- function(rain.week.nozeros, time.nonzero) {
       gamlss(
         rain.week.nozeros ~ time.nonzero,
         sigma.formula =  ~ time.nonzero,
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )
@@ -421,7 +421,7 @@ Fit.Nonlinears <- function(rain.week.nozeros, time.nonzero) {
     t.gam <- quiet(
       gamlss(
         rain.week.nozeros ~ 1,
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )
@@ -429,7 +429,7 @@ Fit.Nonlinears <- function(rain.week.nozeros, time.nonzero) {
     t.gam.ns10 <- quiet(
       gamlss(
         rain.week.nozeros ~ time.nonzero,
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )
@@ -438,7 +438,7 @@ Fit.Nonlinears <- function(rain.week.nozeros, time.nonzero) {
       gamlss(
         rain.week.nozeros ~ 1,
         sigma.formula = ~ time.nonzero,
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )
@@ -447,7 +447,7 @@ Fit.Nonlinears <- function(rain.week.nozeros, time.nonzero) {
       gamlss(
         rain.week.nozeros ~ time.nonzero,
         sigma.formula = ~ time.nonzero,
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )
@@ -455,7 +455,7 @@ Fit.Nonlinears <- function(rain.week.nozeros, time.nonzero) {
     t.gam.ns20 <- quiet(
       gamlss(
         rain.week.nozeros ~ time.nonzero + I(time.nonzero ^ 2),
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )
@@ -463,7 +463,7 @@ Fit.Nonlinears <- function(rain.week.nozeros, time.nonzero) {
     t.gam.ns02 <- quiet(
       gamlss(
         rain.week.nozeros ~ 1,
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.formula = ~ time.nonzero +
           I(time.nonzero ^ 2),
@@ -474,7 +474,7 @@ Fit.Nonlinears <- function(rain.week.nozeros, time.nonzero) {
       gamlss(
         rain.week.nozeros ~ time.nonzero + I(time.nonzero ^ 2),
         sigma.formula = ~ time.nonzero,
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )
@@ -483,7 +483,7 @@ Fit.Nonlinears <- function(rain.week.nozeros, time.nonzero) {
       gamlss(
         rain.week.nozeros ~ time.nonzero,
         sigma.formula = ~ time.nonzero + I(time.nonzero ^ 2),
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )
@@ -492,7 +492,7 @@ Fit.Nonlinears <- function(rain.week.nozeros, time.nonzero) {
       gamlss(
         rain.week.nozeros ~ time.nonzero + I(time.nonzero ^ 2),
         sigma.formula = ~ time.nonzero + I(time.nonzero ^ 2),
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )
@@ -502,7 +502,7 @@ Fit.Nonlinears <- function(rain.week.nozeros, time.nonzero) {
         rain.week.nozeros ~ time.nonzero +
           I(time.nonzero ^ 2) +
           I(time.nonzero ^ 3),
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )
@@ -510,7 +510,7 @@ Fit.Nonlinears <- function(rain.week.nozeros, time.nonzero) {
     t.gam.ns03 <- quiet(
       gamlss(
         rain.week.nozeros ~ 1,
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.formula = ~ time.nonzero +
           I(time.nonzero ^ 2) +
@@ -524,7 +524,7 @@ Fit.Nonlinears <- function(rain.week.nozeros, time.nonzero) {
           I(time.nonzero ^ 2) +
           I(time.nonzero ^ 3),
         sigma.formula = ~ time.nonzero,
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )
@@ -535,7 +535,7 @@ Fit.Nonlinears <- function(rain.week.nozeros, time.nonzero) {
         sigma.formula = ~ time.nonzero +
           I(time.nonzero ^ 2) +
           I(time.nonzero ^ 3),
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )
@@ -547,7 +547,7 @@ Fit.Nonlinears <- function(rain.week.nozeros, time.nonzero) {
           I(time.nonzero ^ 3),
         sigma.formula = ~ time.nonzero +
           I(time.nonzero ^ 2),
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )
@@ -559,7 +559,7 @@ Fit.Nonlinears <- function(rain.week.nozeros, time.nonzero) {
         sigma.formula = ~ time.nonzero +
           I(time.nonzero ^ 2) +
           I(time.nonzero ^ 3),
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )
@@ -572,7 +572,7 @@ Fit.Nonlinears <- function(rain.week.nozeros, time.nonzero) {
         sigma.formula = ~ time.nonzero +
           I(time.nonzero ^ 2) +
           I(time.nonzero ^ 3),
-        family = GA,
+        family = "GA",
         mu.link = "log",
         sigma.link = "log"
       )

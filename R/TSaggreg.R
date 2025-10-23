@@ -19,7 +19,6 @@
 #' @importFrom lubridate year month day parse_date_time
 #' @importFrom zoo rollsum
 #' @importFrom stats na.omit
-#' @autoglobal
 #' @export
 #'
 #' @details
@@ -120,8 +119,15 @@ TSaggreg <- function(daily.rain, start.date, TS = 4L) {
   data.week <- data.week[,-c(4)]
   data.week <- na.omit(data.week)
   colnames(data.week) <- c("Year", "Month", "quasiWeek", paste0("rain.at.TS", TS))
+  final.day <- days[n]
+  final.quasiweek <- pmin(4, ceiling(final.day/7))
+  data.week <- subset(data.week,
+                      (data.week[,1] < final.year) |
+                        (data.week[,1] == final.year & data.week[,2] < final.month) |
+                        (data.week[,1] == final.year & data.week[,2] == final.month &
+                           data.week[,3] <= final.quasiweek))
   message("Done. Just ensure the last quasi-week is complete.
-  The last day of your series is ", days[n], " and TS is ", TS)
+  The last day of your series is ", final.day, " and TS is ", TS)
 
   class(data.week) <- union("TSaggreg", class(data.week))
 
@@ -140,16 +146,16 @@ TSaggreg <- function(daily.rain, start.date, TS = 4L) {
 .check_date <- function(x) {
   tryCatch(
     x <- parse_date_time(x,
-                                    c(
-                                      "Ymd",
-                                      "dmY",
-                                      "mdY",
-                                      "BdY",
-                                      "Bdy",
-                                      "bdY",
-                                      "bdy"
-                                    ),
-                                    tz = "UTC"),
+                         c(
+                           "Ymd",
+                           "dmY",
+                           "mdY",
+                           "BdY",
+                           "Bdy",
+                           "bdY",
+                           "bdy"
+                         ),
+                         tz = "UTC"),
     warning = function(c) {
       stop(
         call. = FALSE,
